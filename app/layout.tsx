@@ -22,12 +22,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className} bg-gray-50 text-gray-900`}>
-        <div className="flex flex-col min-h-screen">
+        <div>
           <MainHeader />
 
-          <main className="flex-1">{children}</main>
+          <main>{children}</main>
 
-          <footer className="bg-gray-100 border-t">
+          <footer className="bg-gray-100 absolute bottom-0 w-full">
             <div className="container mx-auto py-6 px-6 text-center text-sm text-gray-600">
               © El Galpón de mi viejo
             </div>
