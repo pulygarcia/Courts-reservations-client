@@ -30,7 +30,8 @@ export default function FormDatePicker({ onChange }: DatePickerProps) {
       maxDate={maxDate}
       placeholderText="Selecciona una fecha"
       className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-      dateFormat="dd/MM/yyyy"
+      dateFormat="yyyy-MM-dd"
+      name="date"
     />
   );
 }

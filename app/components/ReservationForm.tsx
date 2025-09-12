@@ -1,19 +1,27 @@
 'use client'
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import FormDatePicker from "./Datepicker";
+import { createReservationAction } from "../actions/new-reservation-action";
 
 export default function ReservationForm() {
     const allowedHours = Array.from({ length: 10 }, (_, i) => 14 + i); // [14,15,...23]
     
     const [startTime, setStartTime] = useState("");
+    const [startHour, setStartHour] = useState<number | null>(null);//auxiliar startTime variable
     const [duration, setDuration] = useState<number | "">(""); // 1,2,3
     const maxDuration = 3;
     const [endTime, setEndTime] = useState("");
 
+    const initialState = {
+        errors: [],
+        success: ''
+    }
+    const [state, formAction] = useActionState(createReservationAction, initialState);
+
   return (
     <>
-        <form className="space-y-6">
+        <form action={formAction} className="space-y-6">
             <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
                 Fecha
@@ -26,23 +34,28 @@ export default function ReservationForm() {
                 Hora de inicio
             </label>
             <select
-                value={startTime ? Number(startTime.split(":")[0]) : ""} //divide hour by ":", and get de first position in order to match with option value (14, 15, 16...)
+                name="startTime"
+                value={startTime} //divide hour by ":", and get de first position in order to match with option value (14, 15, 16...)
                 onChange={(e) => {
-                    const value = Number(e.target.value);
-                    setStartTime(`${String(value).padStart(2, "0")}:00`); //convert again to "HH:MM"
+                    //set it for send to the form as "hh:mm"
+                    const value = e.target.value;
+                    setStartTime(value);
+
+                    //use auxiliar state starthour and convert to number to use for logic
+                    const hour = Number(value.split(":")[0]);
+                    setStartHour(hour);
 
                     //reset setduration and endtime because starttime has changed
                     setDuration("")
                     setEndTime("")
                 }}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                required
             >
                 <option value="">Seleccionar hora</option>
                 {allowedHours.map((h) => (
-                <option key={h} value={h}>
-                    {h}:00
-                </option>
+                    <option key={h} value={`${String(h).padStart(2, "0")}:00`}>
+                        {h}:00
+                    </option>
                 ))}
             </select>
 
@@ -54,6 +67,7 @@ export default function ReservationForm() {
                 Duración
                 </label>
                 <select
+                    name="duration"
                     value={duration}
                     onChange={(e) => {
                         const selectedDuration = Number(e.target.value);
@@ -65,7 +79,6 @@ export default function ReservationForm() {
                         setEndTime(`${String(calculatedEnd).padStart(2, "0")}:00`);
                     }}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    required
                     >
                     <option value="">Seleccionar duración</option>
                     {Array.from(
@@ -93,6 +106,7 @@ export default function ReservationForm() {
                     </label>
                     <input
                     type="text"
+                    name="endTime"
                     value={endTime}
                     readOnly
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 text-gray-700"
@@ -106,19 +120,18 @@ export default function ReservationForm() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
                 Cancha
             </label>
-            <select className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <select name="courtId" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">Seleccionar cancha</option>
                 <option value="1">Cancha 1</option>
                 <option value="2">Cancha 2</option>
             </select>
             </div>
-            
-            <button
-            type="submit"
-            className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition"
-            >
-            Confirmar Reserva
-            </button>
+
+            <input
+                type="submit"
+                className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition"
+                value="Confirmar reserva" 
+            />
         </form>
     </>
   );
