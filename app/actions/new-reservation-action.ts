@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { reservationSchema } from "../schemas/form-reservation-schema";
 
 type ActionStateType = {
@@ -25,7 +26,7 @@ export async function createReservationAction(prevState:ActionStateType, formDat
         }
     }
 
-    const token = 'example'
+    const token = (await cookies()).get('jwt')
     const request = await fetch(`${process.env.API_BASE_URL}/reservations`, {
         method: 'POST',
         headers: {

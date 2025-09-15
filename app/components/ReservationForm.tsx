@@ -1,8 +1,9 @@
 'use client'
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import FormDatePicker from "./Datepicker";
 import { createReservationAction } from "../actions/new-reservation-action";
+import { toast } from "react-toastify";
 
 export default function ReservationForm() {
     const allowedHours = Array.from({ length: 10 }, (_, i) => 14 + i); // [14,15,...23]
@@ -18,6 +19,16 @@ export default function ReservationForm() {
         success: ''
     }
     const [state, formAction] = useActionState(createReservationAction, initialState);
+
+    useEffect(() => {
+        if(state.errors){
+        state.errors.map(e => toast.error(e))
+        }
+
+        if(state.success){
+            toast.success(state.success)
+        }
+    },[state])
 
   return (
     <>

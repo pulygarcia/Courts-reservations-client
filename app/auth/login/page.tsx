@@ -1,4 +1,5 @@
 import LoginForm from "@/app/components/LoginForm";
+import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -14,6 +15,15 @@ export default function LoginPage() {
 
         <LoginForm />
         
+        <p className="text-center text-gray-600 mt-6">
+          ¿No tienes una cuenta?{" "}
+          <Link
+            href="/auth/register"
+            className="text-green-500 font-semibold hover:underline"
+          >
+            Crear cuenta
+          </Link>
+        </p>
       </div>
     </section>
   );

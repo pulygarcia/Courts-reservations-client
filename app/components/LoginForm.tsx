@@ -1,16 +1,23 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { loginAction } from "../actions/login-action";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
 
     const initialState = {
-        success: '',
-        errors: []
+      success: '',
+      errors: []
     }
     
     const [state, formAction] = useActionState(loginAction, initialState)
+
+    useEffect(() => {
+      if(state.errors){
+        state.errors.map(e => toast.error(e))
+      }
+    },[state])
 
   return (
     <form action={formAction} className="space-y-6">

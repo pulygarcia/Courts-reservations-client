@@ -1,6 +1,8 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { loginSchema } from "../schemas/auth-schemas";
+import { redirect } from "next/navigation";
 
 type ActionStateType = {
     success: string,
@@ -41,8 +43,13 @@ export async function loginAction(prevState:ActionStateType, formData: FormData)
         }
     }
 
-    return { 
-        success: 'Tu cuenta fue creada correctamente', 
-        errors: [] 
-    }
+    await((await cookies()).set("jwt", response.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 90, // 90 days
+        path: "/",
+    }))
+
+    redirect('/reservation');
 }

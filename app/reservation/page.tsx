@@ -1,6 +1,14 @@
+import { cookies } from "next/headers";
 import ReservationForm from "../components/ReservationForm";
+import { redirect } from "next/navigation";
 
-export default function ReservationPage() {
+export default async function ReservationPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('jwt');
+  if(!token){
+    redirect('/auth/login')
+  }
+  
   return (
     <section className="flex justify-center items-center py-16 bg-gray-50">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-2xl p-8">

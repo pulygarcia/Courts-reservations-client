@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <section className="relative h-[80vh] flex items-center justify-center">
@@ -17,19 +19,19 @@ export default function Home() {
           Reservá tu cancha y comprá productos de pádel. Fácil, rápido y online
         </p>
         <div className="flex items-center gap-4 justify-center">
-          <a
-            href="#reservar"
+          <Link
+            href="/reservation"
             className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition"
           >
             Reservar
-          </a>
+          </Link>
 
-          <a
-            href="#reservar"
+          <Link
+            href="/list"
             className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition"
           >
             Ver precios
-          </a>
+          </Link>
         </div>
       </div>
     </section>

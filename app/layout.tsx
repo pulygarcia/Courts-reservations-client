@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import MainHeader from "./components/MainHeader";
+import { ToastContainer } from "react-toastify";
 
 
 const inter = Inter({
@@ -23,6 +24,8 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${inter.className} bg-gray-50 text-gray-900`}>
         <div>
+          <ToastContainer />
+
           <MainHeader />
 
           <main>{children}</main>

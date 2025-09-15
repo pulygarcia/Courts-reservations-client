@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { registerSchema } from "../schemas/auth-schemas";
 
 type ActionStateType = {
@@ -48,8 +49,5 @@ export async function registerAction(prevState:ActionStateType, formData: FormDa
         }
     }
 
-    return { 
-        success: 'Tu cuenta fue creada correctamente', 
-        errors: [] 
-    }
+    redirect("/auth/success-register");
 }
