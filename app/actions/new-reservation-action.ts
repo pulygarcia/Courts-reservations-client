@@ -26,7 +26,7 @@ export async function createReservationAction(prevState:ActionStateType, formDat
         }
     }
 
-    const token = (await cookies()).get('jwt')
+    const token = (await cookies()).get('jwt')?.value
     const request = await fetch(`${process.env.API_BASE_URL}/reservations`, {
         method: 'POST',
         headers: {
