@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import FormDatePicker from "./Datepicker";
 import { createReservationAction } from "../actions/new-reservation-action";
 import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
 
 export default function ReservationForm() {
     const allowedHours = Array.from({ length: 10 }, (_, i) => 14 + i); // [14,15,...23]
@@ -27,6 +28,7 @@ export default function ReservationForm() {
 
         if(state.success){
             toast.success(state.success)
+            redirect('/reservation/success-reservation')
         }
     },[state])
 

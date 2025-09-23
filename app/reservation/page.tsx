@@ -1,13 +1,9 @@
-import { cookies } from "next/headers";
 import ReservationForm from "../components/ReservationForm";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { getUserIdFromCookies } from "../utils/auth";
 
 export default async function ReservationPage() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('jwt');
-  if(!token){
-    redirect('/auth/login')
-  }
+  const userId = await getUserIdFromCookies();
   
   return (
     <section className="flex justify-center items-center py-16 bg-gray-50">
@@ -22,6 +18,15 @@ export default async function ReservationPage() {
 
         <ReservationForm />
         
+         <div className="border-t mt-8 pt-6 text-center">
+          <p className="text-gray-500 mb-2">¿Querés revisar tus turnos?</p>
+          <Link
+            href={`/reservation/my-reservations/${userId}`}
+            className="text-green-600 font-semibold hover:underline"
+          >
+            Ver mis reservas
+          </Link>
+        </div>
       </div>
     </section>
   );
