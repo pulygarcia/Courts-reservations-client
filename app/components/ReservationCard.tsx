@@ -1,5 +1,12 @@
+'use client'
+
+import { useActionState, useEffect } from "react";
 import { ReservationResponse } from "../schemas/form-reservation-schema";
 import { format, parse, parseISO } from "date-fns";
+import { cancelReservationAction } from "../actions/cancel-reservation";
+import Spinner from "./Spinner";
+import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
 
 export default function ReservationCard({res} : {res: ReservationResponse}) {
     const formattedDate = format(parseISO(res.date), "dd-MM-yyyy");
@@ -10,6 +17,31 @@ export default function ReservationCard({res} : {res: ReservationResponse}) {
     // format to only hours and minutes
     const formattedStartTime = format(parsedStartTime, "HH:mm");
     const formattedEndTime = format(parsedEndTime, "HH:mm");
+
+    const initialState = {
+      success: '',
+      errors: []
+    }
+
+    const cancelReservationWithId = cancelReservationAction.bind(null, res.id)
+    const [state, formAction, pending] = useActionState(cancelReservationWithId, initialState)
+
+    useEffect(() => {
+        if(state.errors){
+        state.errors.map(e => toast.error(e))
+        }
+
+        if(state.success){
+            toast.success(state.success)
+            redirect('/reservation/success-cancelation')
+        }
+    },[state])
+
+    if(pending){
+      return (
+        <Spinner />
+      )
+    }
 
   return (
     <>
@@ -30,9 +62,12 @@ export default function ReservationCard({res} : {res: ReservationResponse}) {
             </div>
 
             <div className="flex justify-end gap-2 mt-4">
-              <button className="px-3 py-1 text-sm rounded-lg bg-red-500 text-white hover:bg-red-600 transition cursor-pointer">
-                Cancelar reserva
-              </button>
+              <form action={formAction}>
+                <input 
+                  type="submit" 
+                  className="px-3 py-1 text-sm rounded-lg bg-red-500 text-white hover:bg-red-600 transition cursor-pointer"
+                  value="Cancelar reserva"/>
+              </form>
             </div>
           </div>
     </>
