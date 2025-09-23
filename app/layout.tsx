@@ -30,7 +30,7 @@ export default function RootLayout({
 
           <main>{children}</main>
 
-          <footer className="bg-gray-100 absolute bottom-0 w-full">
+          <footer className="bg-gray-100 absolute md:bottom-0 w-full">
             <div className="container mx-auto py-6 px-6 text-center text-sm text-gray-600">
               © El Galpón de mi viejo
             </div>
