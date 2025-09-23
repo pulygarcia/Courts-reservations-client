@@ -5,6 +5,7 @@ import FormDatePicker from "./Datepicker";
 import { createReservationAction } from "../actions/new-reservation-action";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
+import Spinner from "./Spinner";
 
 export default function ReservationForm() {
     const allowedHours = Array.from({ length: 10 }, (_, i) => 14 + i); // [14,15,...23]
@@ -19,7 +20,7 @@ export default function ReservationForm() {
         errors: [],
         success: ''
     }
-    const [state, formAction] = useActionState(createReservationAction, initialState);
+    const [state, formAction, pending] = useActionState(createReservationAction, initialState);
 
     useEffect(() => {
         if(state.errors){
@@ -31,6 +32,12 @@ export default function ReservationForm() {
             redirect('/reservation/success-reservation')
         }
     },[state])
+
+    if(pending){
+        return (
+            <Spinner />
+        )
+    }
 
   return (
     <>

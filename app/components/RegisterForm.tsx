@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { registerAction } from "../actions/register-action";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 export default function RegisterForm() {
     const initialState = {
@@ -10,13 +11,19 @@ export default function RegisterForm() {
         errors: []
     }
 
-    const [state, formAction] = useActionState(registerAction, initialState)
+    const [state, formAction, pending] = useActionState(registerAction, initialState)
 
     useEffect(() => {
       if(state.errors){
         state.errors.map(e => toast.error(e))
       }
     },[state])
+
+    if(pending){
+      return (
+          <Spinner />
+      )
+    }
 
   return (
     <form action={formAction} className="max-w-md mx-auto space-y-6 p-6">

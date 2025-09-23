@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { loginAction } from "../actions/login-action";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 export default function LoginForm() {
 
@@ -11,13 +12,19 @@ export default function LoginForm() {
       errors: []
     }
     
-    const [state, formAction] = useActionState(loginAction, initialState)
+    const [state, formAction, pending] = useActionState(loginAction, initialState)
 
     useEffect(() => {
       if(state.errors){
         state.errors.map(e => toast.error(e))
       }
     },[state])
+
+    if(pending){
+      return (
+          <Spinner />
+      )
+    }
 
   return (
     <form action={formAction} className="space-y-6">
