@@ -1,5 +1,6 @@
 "use client";
 
+import { es } from "date-fns/locale";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -32,6 +33,7 @@ export default function FormDatePicker({ onChange }: DatePickerProps) {
       className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
       dateFormat="yyyy-MM-dd"
       name="date"
+      locale={es}
     />
   );
 }
