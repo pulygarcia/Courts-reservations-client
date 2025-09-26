@@ -1,36 +1,10 @@
 import FixedReservationForm from "@/app/components/fixedReservationForm";
-import { FixedReservationResponse } from "@/app/schemas/form-reservation-schema";
+import ReservationsSidebar from "@/app/components/ReservationsSideBar";
+import { getFixedReservations, weekDays } from "@/app/utils/reservations";
 import Link from "next/link";
 
 export default async function FixedReservationPage() {
-  const getFixedReservations = async () => {
-      const req = await fetch(`${process.env.API_BASE_URL}/fixed-reservations`);
-      const res = await req.json();
-
-      //order asc
-      const orderedReservations = res.sort((a:any, b:any) => {
-        const startA = Number(a.startTime.split(":")[0]);
-        const startB = Number(b.startTime.split(":")[0]);
-  
-        const result = startA - startB //if < 0 → a before b, if > 0 → a after b
-        return result; //reordered array
-      });
-  
-      return orderedReservations;
-  };
-
-  const reservations = await getFixedReservations();
-
-  const weekDays = [
-    {value: '1', day: 'Lunes'},
-    {value: '2', day: 'Martes'},
-    {value: '3', day: 'Miercoles'},
-    {value: '4', day: 'Jueves'},
-    {value: '5', day: 'Viernes'},
-    {value: '6', day: 'Sabado'},
-    {value: '0', day: 'Domingo'}
-  ]
-
+  const fixedReservations = await getFixedReservations();
 
   return (
     <section className="flex justify-center items-start py-6 md:py-16 bg-gray-50">
@@ -58,34 +32,10 @@ export default async function FixedReservationPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-2xl p-6 flex-1 md:w-64">
-          <h3 className="text-xl font-bold text-red-600 mb-4">
-            Turnos fijos ocupados
-          </h3>
-          <ul className="space-y-3 overflow-y-auto max-h-[600px]">
-            {reservations.length === 0 && (
-              <li className="p-3 rounded-lg text-gray-500 text-sm border border-gray-200 text-center">
-                No se encontraron turnos fijos reservados.
-              </li>
-            )}
-
-            {reservations.map((res: FixedReservationResponse) => {
-              const dayName = weekDays.find(d => Number(d.value) === Number(res.dayOfWeek))?.day;
-
-              return(
-                <li
-                  key={res.id}
-                  className="p-3 rounded-lg text-gray-700 text-sm border border-red-200"
-                >
-                  <span className="bg-gray-100 text-gray-700 p-1 rounded me-2">
-                    {dayName} de {res.startTime.slice(0, 5)} - {res.endTime.slice(0, 5)}
-                  </span>{" "}
-                  <span className="capitalize font-medium text-blue-700">{res.court.name}</span>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+        <ReservationsSidebar 
+          fixedReservations={fixedReservations} 
+          weekDays={weekDays}
+        />
       </div>
     </section>
   );

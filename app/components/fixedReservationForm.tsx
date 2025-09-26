@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
 import Spinner from "./Spinner";
 import { createFixedReservation } from "../actions/new-fixed-reservation-action";
+import { weekDays } from "../utils/reservations";
 
 export default function FixedReservationForm() {
   const initialState = {
@@ -20,16 +21,6 @@ export default function FixedReservationForm() {
   const maxDuration = 3;
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
-  const weekDays = [
-    {value: '1', day: 'Lunes'},
-    {value: '2', day: 'Martes'},
-    {value: '3', day: 'Miercoles'},
-    {value: '4', day: 'Jueves'},
-    {value: '5', day: 'Viernes'},
-    {value: '6', day: 'Sabado'},
-    {value: '0', day: 'Domingo'}
-  ]
 
   useEffect(() => {
     if (state.errors) {
@@ -60,7 +51,7 @@ export default function FixedReservationForm() {
           ))}
         </select>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
                 Hora de inicio

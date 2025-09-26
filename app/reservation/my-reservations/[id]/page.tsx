@@ -1,26 +1,15 @@
 import ReservationCard from "@/app/components/ReservationCard";
 import { ReservationResponse } from "@/app/schemas/form-reservation-schema";
-import { cookies } from "next/headers";
+import { tokenGuard } from "@/app/utils/auth";
+import { getUserReservations } from "@/app/utils/reservations";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function MyReservationsPage({params,}: {params: Promise<{ id: string }>}) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('jwt');
-    if(!token){
-        redirect('/auth/login')
-    }
+  await tokenGuard();
 
-    const { id } = await params
+  const { id } = await params
 
-  const getUserReservations = async () => {
-    const req = await fetch(`${process.env.API_BASE_URL}/users/${id}`)
-    const res = await req.json();
-
-    return res.reservations
-  }
-
-  const reservations = await getUserReservations();
+  const reservations = await getUserReservations(+id);
 
   return (
     <div className="p-6 py-16 max-w-4xl mx-auto">
