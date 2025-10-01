@@ -1,16 +1,18 @@
-export default function PricingListPage() {
-  const items = [
-    { name: "Hora de cancha", price: "$12000", highlight: true },
-    { name: "Cubre grips (unidad)", price: "$2300" },
-    { name: "Tubo de pelotas", price: "$9000" },
-    { name: "Gaseosa 2L (coca, mirinda, pepsi, 7up)", price: "$2500" },
-    { name: "Lata de gaseosa (coca, mirinda, pepsi, 7up)", price: "$1600" },
-    { name: "Cerveza", price: "$1800" },
-    { name: "Gatorade", price: "$2100" },
-    { name: "Powerade", price: "$2100" },
-    { name: "Agua", price: "$1200" },
-    { name: "Jugo", price: "$1500" },
-  ];
+import Link from "next/link";
+import { getUserRoleFromCookies } from "../utils/auth";
+import { getChargesList } from "../utils/list";
+import ListItem from "../components/ListItem";
+
+export default async function PricingListPage() {
+  type ItemResponse = {
+    id: number;
+    name: string;
+    price: number;
+  };
+
+  const items = await getChargesList();
+  const role = await getUserRoleFromCookies();
+  const isAdmin = role === "admin";
 
   return (
     <section className="py-16 bg-gray-50">
@@ -19,18 +21,21 @@ export default function PricingListPage() {
           Lista de Precios
         </h1>
 
+        {isAdmin && (
+          <div className="flex justify-end mb-4">
+            <Link
+              href="/list/new-item"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm"
+            >
+              + Agregar item
+            </Link>
+          </div>
+        )}
+
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
           <ul>
-            {items.map((item, idx) => (
-              <li
-                key={idx}
-                className={`flex justify-between items-center px-6 py-4 border-b last:border-b-0 ${
-                  item.highlight ? "bg-green-50 font-semibold text-green-700" : ""
-                }`}
-              >
-                <span>{item.name}</span>
-                <span>{item.price}</span>
-              </li>
+            {items.map((item: ItemResponse) => (
+              <ListItem key={item.id} item={item} isAdmin={isAdmin} />
             ))}
           </ul>
         </div>
