@@ -11,10 +11,12 @@ type ActionStateType = {
 export async function newItemAction(prevState:ActionStateType, formData: FormData) {
     const nameValue = formData.get("name");
     const priceValue = formData.get("price");
+    const stockValue = formData.get("stock");
 
     const rawData = {
         name: nameValue,
-        price: Number(priceValue)
+        price: Number(priceValue),
+        stock: Number(stockValue),
     }
 
     const result = newItemSchema.safeParse(rawData);
@@ -40,7 +42,7 @@ export async function newItemAction(prevState:ActionStateType, formData: FormDat
 
     if(!request.ok){
         return{
-            errors: [response.message],
+            errors: [response.message[0]],
             success: ''
         }
     }

@@ -12,6 +12,7 @@ type ListItemProps = {
   id: number;
   name: string;
   price: number;
+  stock: number|null;
 };
 
 export default function ListItem({item, isAdmin} : {item: ListItemProps, isAdmin: boolean}) {
@@ -52,6 +53,12 @@ export default function ListItem({item, isAdmin} : {item: ListItemProps, isAdmin
         <div className="flex flex-col">
             <span>{item.name}</span>
         </div>
+
+        {item.stock && (
+            <div className="flex flex-col">
+                <span>{item.stock}</span>
+            </div>
+        )}
 
         <div className="flex items-center gap-4">
             <span>{formatCurrency(item.price)}</span>

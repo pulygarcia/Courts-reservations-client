@@ -60,9 +60,21 @@ export default function NewItemForm() {
         />
       </div>
 
+      <div className="flex flex-col">
+        <label htmlFor="stock" className="font-medium mb-2">
+          Stock
+        </label>
+        <input
+          id="stock"
+          name="stock"
+          type="number"
+          className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
       <input
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm"
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm cursor-pointer"
         value="Agregar item"
       />
     </form>

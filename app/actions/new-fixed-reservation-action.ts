@@ -18,8 +18,8 @@ export async function createFixedReservation(prevState:ActionStateType, formData
 
     const result = fixedReservationSchema.safeParse(rawData);
     if(!result.success){
-        console.log(result.error.issues);
-        const errorMessages = result.error.issues.map(error => error.message);
+        const errorsWithoutRegex = result.error.issues.filter(e => !e.message.includes("Invalid"))
+        const errorMessages = errorsWithoutRegex.map(error => error.message);
         return {
             success: '',
             errors: errorMessages

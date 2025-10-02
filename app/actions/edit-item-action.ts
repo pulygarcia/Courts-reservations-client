@@ -11,10 +11,12 @@ type ActionStateType = {
 export async function editItemAction(id:number,prevState:ActionStateType, formData:FormData): Promise<ActionStateType> {
     const nameValue = formData.get("name");
     const priceValue = formData.get("price");
+    const stockValue = formData.get("stock");
 
     const rawData = {
         name: nameValue,
-        price: Number(priceValue)
+        price: Number(priceValue),
+        stock: Number(stockValue)
     }
 
     const result = editItemSchema.safeParse(rawData);
