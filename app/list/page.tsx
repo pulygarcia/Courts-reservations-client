@@ -8,6 +8,7 @@ export default async function PricingListPage() {
     id: number;
     name: string;
     price: number;
+    stock: number|null;
   };
 
   const items = await getChargesList();
@@ -32,12 +33,46 @@ export default async function PricingListPage() {
           </div>
         )}
 
-        <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-          <ul>
-            {items.map((item: ItemResponse) => (
-              <ListItem key={item.id} item={item} isAdmin={isAdmin} />
-            ))}
-          </ul>
+        <div className="bg-white shadow-lg rounded-2xl overflow-hidden mt-8">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Producto/Servicio
+                </th>
+                {isAdmin && (
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Stock
+                  </th>
+                )}
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Precio
+                </th>
+                {isAdmin && (
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Acciones
+                  </th>
+                )}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {items.map((item: ItemResponse) => (
+                <ListItem key={item.id} item={item} isAdmin={isAdmin} />
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>

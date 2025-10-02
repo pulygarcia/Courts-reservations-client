@@ -39,48 +39,50 @@ export default function ListItem({item, isAdmin} : {item: ListItemProps, isAdmin
     
     if(pending){
         return (
-            <Spinner />
+            <tr>
+                <td><Spinner /></td>
+            </tr>
         )
     }
 
   return (
-    <li
-        key={item.id}
-        className={`flex justify-between items-center px-6 py-4 border-b last:border-b-0 ${
+    <tr
+        className={`${
             item.id === 1 ? "bg-green-50 font-semibold text-green-700" : ""
         }`}
     >
-        <div className="flex flex-col">
+        <td className="px-6 py-4 whitespace-nowrap">
             <span>{item.name}</span>
-        </div>
+        </td>
 
-        {item.stock && (
-            <div className="flex flex-col">
-                <span>{item.stock}</span>
-            </div>
+        {isAdmin && (
+            <td className="px-6 py-4 whitespace-nowrap">
+                {item.stock ?? "-"}
+            </td>
         )}
 
-        <div className="flex items-center gap-4">
+        <td className="px-6 py-4 whitespace-nowrap">
             <span>{formatCurrency(item.price)}</span>
+        </td>
 
-            {isAdmin && (
-            <>
-                <Link
-                    href={`/list/${item.id}/edit`}
-                    className="text-blue-600 hover:underline cursor-pointer"
-                >
-                    Editar
-                </Link>
-                <form action={formAction}>
-                    <input
-                        type="submit"
-                        className="text-red-600 hover:underline cursor-pointer"
-                        value="Eliminar"
-                    />
-                </form>
-            </>
-            )}
-        </div>
-    </li>
+        {isAdmin && (
+            <td className="px-6 py-4 whitespace-nowrap flex gap-4">
+            <Link
+                href={`/list/${item.id}/edit`}
+                className="text-blue-600 hover:underline cursor-pointer"
+            >
+                Editar
+            </Link>
+
+            <form action={formAction}>
+                <input
+                type="submit"
+                className="text-red-600 hover:underline cursor-pointer"
+                value="Eliminar"
+                />
+            </form>
+            </td>
+        )}
+    </tr>
   );
 }
