@@ -56,8 +56,8 @@ export default function ListItem({item, isAdmin} : {item: ListItemProps, isAdmin
         </td>
 
         {isAdmin && (
-            <td className="px-6 py-4 whitespace-nowrap">
-                {item.stock ?? "-"}
+            <td className={`${item.stock === 0 ? 'text-red-500' : ''} px-6 py-4 whitespace-nowrap`}>
+                {item.stock === 0 ? 'Sin stock' : item.stock?? '-'}
             </td>
         )}
 
