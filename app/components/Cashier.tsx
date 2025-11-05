@@ -98,7 +98,7 @@ export default function Cashier({items} : {items: ItemResponseSchema[]}) {
             </ul>
             </div>
 
-            <aside className="bg-white p-4 rounded-2xl shadow-lg">
+            <aside className="bg-white p-4 rounded-2xl shadow-lg overflow-y-auto max-h-[600px]">
             <h2 className="text-lg font-medium mb-4">Consumo</h2>
 
             {cartDetails.length === 0 ? (

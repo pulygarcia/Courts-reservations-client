@@ -37,8 +37,6 @@ export async function registerSaleAction(cart:SaleItem[],prevState:ActionStateTy
     });
 
     const response = await request.json();
-    console.log(request);
-    console.log(response);
 
     if(!request.ok){
         return{
