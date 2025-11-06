@@ -47,19 +47,19 @@ export default async function SalesRegisterPage() {
     }
 
     const getCurrentMonthGains = () => {
-  const now = new Date();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime(); // timestamp inicio del mes
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1).getTime(); // timestamp primer día del mes siguiente
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime(); // timestamp inicio del mes
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1).getTime(); // timestamp primer día del mes siguiente
 
-  const totalThisMonth = salesList
-    .filter((sale) => {
-      const saleDate = new Date(sale.createdAt).getTime();
-      return saleDate >= startOfMonth && saleDate < endOfMonth;
-    })
-    .reduce((acc, sale) => acc + Number(sale.total), 0);
+      const totalThisMonth = salesList
+        .filter((sale) => {
+          const saleDate = new Date(sale.createdAt).getTime();
+          return saleDate >= startOfMonth && saleDate < endOfMonth;
+        })
+        .reduce((acc, sale) => acc + Number(sale.total), 0);
 
-  return totalThisMonth;
-};
+      return totalThisMonth;
+    };
 
   return (
     <main className="min-h-screen p-6 bg-gray-50">

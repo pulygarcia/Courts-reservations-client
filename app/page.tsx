@@ -16,7 +16,7 @@ export default function Home() {
           Bienvenido a <span className="text-green-400">El Galpón pádel club</span>
         </h1>
         <p className="text-lg md:text-2xl mb-6">
-          Reservá tu cancha y comprá productos de pádel. Fácil, rápido y online
+          Reservá tu turno fácil, rápido y online
         </p>
         <div className="flex items-center gap-4 justify-center">
           <Link
