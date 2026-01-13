@@ -8,7 +8,7 @@ export default async function PricingListPage() {
     id: number;
     name: string;
     price: number;
-    stock: number|null;
+    stock?: number|null;
   };
 
   const items = await getChargesList();

@@ -74,28 +74,24 @@ export default function Cashier({items} : {items: ItemResponseSchema[]}) {
     <>
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="col-span-2 bg-white p-4 rounded-2xl shadow-lg">
-            <h2 className="text-lg font-medium mb-4">Productos/Servicios</h2>
-            <ul className="space-y-3">
-                {items.map((p:ItemResponseSchema) => {
-                    const noStock = p.stock === 0;
-                return(
-                <li key={p.id} className="flex items-center justify-between p-3 border border-blue-500 rounded-lg">
-                    <div>
-                        <div className="font-medium">{p.name}</div>
-                        <div className="text-sm text-gray-500">{formatCurrency(p.price)}</div>
-                        <div className={`text-sm` + noStock ? 'text-red-500' : 'text-gray-500'}> {noStock ? 'Sin stock' : ''} </div>
-                    </div>
-                    <button 
-                        disabled={p.stock === 0} 
-                        onClick={() => addToCart(+p.id)} 
-                        className={`px-3 py-1 rounded-lg shadow-sm hover:shadow-lg transition focus:outline-none cursor-pointer` + 
-                        (p.stock === 0? "opacity-50 cursor-not-allowed bg-gray-200 text-gray-500": "hover:shadow-lg cursor-pointer bg-white")}
-                    >
-                        Agregar
-                    </button>
-                </li>
-                )})}
-            </ul>
+                <h2 className="text-lg font-medium mb-4">Productos/Servicios</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto">
+                    {items.map((p) => (
+                        <button
+                            key={p.id}
+                            disabled={p.stock === 0}
+                            onClick={() => addToCart(+p.id)}
+                            className="group cursor-pointer relative flex flex-col p-5 rounded-2xl border-2 border-slate-50 bg-slate-50 hover:bg-white hover:border-blue-500 transition text-left disabled:opacity-50 disabled:hover:border-slate-50 disabled:active:scale-100"
+                            >
+                            <span className="text-slate-900 font-bold text-lg mb-1">{p.name}</span>
+                            <span className="text-blue-600 font-black">{formatCurrency(p.price)}</span>
+                            {p.stock === 0 && (
+                                <span className="absolute top-4 right-4 text-xs bg-red-500 text-white px-2 py-1 rounded-md font-black">AGOTADO</span>
+                            )}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             <aside className="bg-white p-4 rounded-2xl shadow-lg overflow-y-auto max-h-[600px]">

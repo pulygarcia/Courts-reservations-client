@@ -3,7 +3,7 @@ import { getUserRoleFromCookies } from "../utils/auth";
 
 
 export default async function SalesRegisterPage() {
-  const role = await getUserRoleFromCookies();
+    const role = await getUserRoleFromCookies();
     const isAdmin = role === 'admin';
   
     if (!isAdmin) {
@@ -17,7 +17,6 @@ export default async function SalesRegisterPage() {
     const getItemsList = async () => {
         const req = await fetch(`${process.env.API_BASE_URL}/charges`)
         const res = await req.json();
-
         return res
     }
     const itemsList = await getItemsList();

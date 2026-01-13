@@ -62,8 +62,8 @@ export default async function SalesRegisterPage() {
     };
 
   return (
-    <main className="min-h-screen p-6 bg-gray-50">
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+    <main className="min-h-screen p-6">
+      <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
           <h2 className="text-3xl font-bold text-blue-900 mb-4 sm:mb-0">
             Historial de ventas
@@ -84,7 +84,7 @@ export default async function SalesRegisterPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
           <table className="w-full border-collapse border border-gray-200">
             <thead className="bg-blue-900 text-white">
               <tr>
